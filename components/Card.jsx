@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./card.module.css";
 import cls from "classnames";
 
-export const Card = ({ name, imgUrl, href }) => {
+export const Card = ({ name, imgUrl, href, alt }) => {
   return (
     <Link href={href} className={styles.cardLink}>
       <div className={cls("glass", styles.container)}>
@@ -17,6 +17,7 @@ export const Card = ({ name, imgUrl, href }) => {
             height={160}
             width={260}
             className={styles.cardImage}
+            alt={alt}
           />
         </div>
       </div>

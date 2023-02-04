@@ -8,7 +8,7 @@ import coffestore from "@/data/coffee-stores.json";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({ coffestore }) {
   const handleOnButtonClick = () => {
     console.log("buttonClick");
   };
@@ -29,7 +29,12 @@ export default function Home() {
           handleOnClick={handleOnButtonClick}
         />
         <div className={styles.heroImage}>
-          <Image src="/static/hero-image.png" width={700} height={400} />
+          <Image
+            src="/static/hero-image.png"
+            width={700}
+            height={400}
+            alt="logo"
+          />
           <div className={styles.cardLayout}>
             {coffestore.map((item) => (
               <Card
@@ -37,6 +42,8 @@ export default function Home() {
                 imgUrl={item.imgUrl}
                 href={`/coffee-store/${item.id}`}
                 className={styles.card}
+                alt={item.name}
+                key={item.id}
               />
             ))}
           </div>
@@ -45,3 +52,11 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      coffestore,
+    },
+  };
+};
