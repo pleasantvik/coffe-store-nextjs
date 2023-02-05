@@ -5,6 +5,7 @@ import styles from "@/styles/Home.module.css";
 import { Banner } from "@/components/Banner";
 import { Card } from "@/components/Card";
 import coffestore from "@/data/coffee-stores.json";
+import { Fragment } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,24 +36,29 @@ export default function Home({ coffestore }) {
             height={400}
             alt="logo"
           />
-          <div className={styles.cardLayout}>
-            {coffestore.map((item) => (
-              <Card
-                name={item.name}
-                imgUrl={item.imgUrl}
-                href={`/coffee-store/${item.id}`}
-                className={styles.card}
-                alt={item.name}
-                key={item.id}
-              />
-            ))}
-          </div>
         </div>
+        {coffestore.length > 0 && (
+          <Fragment>
+            <h2 className={styles.heading2}>Toronto Stores</h2>
+            <div className={styles.cardLayout}>
+              {coffestore.map((item) => (
+                <Card
+                  name={item.name}
+                  imgUrl={item.imgUrl}
+                  href={`/coffee-store/${item.id}`}
+                  className={styles.card}
+                  alt={item.name}
+                  key={item.id}
+                />
+              ))}
+            </div>
+          </Fragment>
+        )}
       </main>
     </div>
   );
 }
-
+// export const getStaticPaths = async () => {};
 export const getStaticProps = async () => {
   return {
     props: {
