@@ -4,12 +4,19 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import { Banner } from "@/components/Banner";
 import { Card } from "@/components/Card";
-import coffestore from "@/data/coffee-stores.json";
 import { Fragment } from "react";
+import {
+  fetchCoffeeStore,
+  getListOfCoffeeStorePhotos,
+} from "@/lib/coffee-store";
+
+import coffee from "../data/foursquare-api-data.json";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ coffestore }) {
+export default function Home({ coffeStore, images }) {
+  console.log(images, "unsplash");
+  // console.log(coffeStore);
   const handleOnButtonClick = () => {
     console.log("buttonClick");
   };
@@ -37,18 +44,20 @@ export default function Home({ coffestore }) {
             alt="logo"
           />
         </div>
-        {coffestore.length > 0 && (
+        {coffeStore.length > 0 && (
           <Fragment>
             <h2 className={styles.heading2}>Toronto Stores</h2>
             <div className={styles.cardLayout}>
-              {coffestore.map((item) => (
+              {coffeStore.map((item) => (
                 <Card
                   name={item.name}
-                  imgUrl={item.imgUrl}
-                  href={`/coffee-store/${item.id}`}
+                  imgUrl={
+                    "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2468&q=80"
+                  }
+                  href={`/coffee-store/${item.fsq_id}`}
                   className={styles.card}
                   alt={item.name}
-                  key={item.id}
+                  key={item.fsq_id}
                 />
               ))}
             </div>
@@ -59,10 +68,18 @@ export default function Home({ coffestore }) {
   );
 }
 // export const getStaticPaths = async () => {};
+
 export const getStaticProps = async () => {
+  // const coffeStore = await fetchCoffeeStore();
+  const coffeStore = coffee.results;
+  const img = await getListOfCoffeeStorePhotos();
+
+  console.log(img);
+
   return {
     props: {
-      coffestore,
+      coffeStore,
+      images: img,
     },
   };
 };
